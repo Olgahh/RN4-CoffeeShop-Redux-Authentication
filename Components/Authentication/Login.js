@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+//Redux
+import { connect } from "react-redux";
+import { login } from "../../redux/actions";
 
 // Screen Names
-import { SIGNUP } from "../../Navigation/screenNames";
+import { SIGNUP, COFFEESHOPS, SHOP } from "../../Navigation/screenNames";
 
 // Styling Components
 import { TextInput, TouchableOpacity, View } from "react-native";
@@ -11,12 +14,14 @@ import styles from "./styles";
 class Login extends Component {
   state = {
     username: "",
-    password: ""
+    password: "",
   };
 
   render() {
     const { navigation } = this.props;
     const { username, password } = this.state;
+    const goToCoffeeList = () =>
+      navigation.navigate(SHOP, { screen: COFFEESHOPS });
     return (
       <View style={styles.authContainer}>
         <Text style={styles.authTitle}>Login</Text>
@@ -24,21 +29,20 @@ class Login extends Component {
           style={styles.authTextInput}
           placeholder="Username"
           placeholderTextColor="#A6AEC1"
+          value={username}
+          onChangeText={(username) => this.setState({ username })}
         />
         <TextInput
           style={styles.authTextInput}
           placeholder="Password"
           placeholderTextColor="#A6AEC1"
           secureTextEntry={true}
+          value={password}
+          onChangeText={(password) => this.setState({ password })}
         />
         <TouchableOpacity
           style={styles.authButton}
-          onPress={() =>
-            alert(
-              `YOU'RE TRYING TO LOGIN AS "${username}". 
-        "${password}" is a really stupid password.`
-            )
-          }
+          onPress={() => this.props.login(this.state, goToCoffeeList)}
         >
           <Text style={styles.authButtonText}>Log in</Text>
         </TouchableOpacity>
@@ -53,4 +57,7 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  login: (userData) => dispatch(login(userData)),
+});
+export default connect(null, mapDispatchToProps)(Login);
