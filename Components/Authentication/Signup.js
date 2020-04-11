@@ -1,27 +1,30 @@
 import React, { Component } from "react";
-//Redux
-import { connect } from "react-redux";
-import { signup } from "../../redux/actions";
+
 // Screen Names
-import { LOGIN } from "../../Navigation/screenNames";
+import { LOGIN, SHOP, COFFEESHOPS } from "../../Navigation/screenNames";
 
 // Styling Components
 import { TextInput, TouchableOpacity, View } from "react-native";
 import { Text } from "native-base";
 import styles from "./styles";
+import { connect } from "react-redux";
+import { signup } from "../../redux/actions";
 
-class Signup extends Component {
+class Login extends Component {
   state = {
     username: "",
     password: "",
   };
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, signup } = this.props;
     const { username, password } = this.state;
+
+    const goToCoffeeList = () =>
+      navigation.navigate(SHOP, { screen: COFFEESHOPS });
     return (
       <View style={styles.authContainer}>
-        <Text style={styles.authTitle}>Signup</Text>
+        <Text style={styles.authTitle}>SIGNUP</Text>
         <TextInput
           style={styles.authTextInput}
           placeholder="Username"
@@ -39,21 +42,21 @@ class Signup extends Component {
         />
         <TouchableOpacity
           style={styles.authButton}
-          onPress={() => this.props.signup(this.state)}
+          onPress={() => signup(this.state, goToCoffeeList)}
         >
-          <Text style={styles.authButtonText}>Sign up</Text>
+          <Text style={styles.authButtonText}>Log in</Text>
         </TouchableOpacity>
         <Text
           style={styles.authOther}
-          onPress={() => navigation.replace(LOGIN)}
+          onPress={() => navigation.replace(SIGNUP)}
         >
-          Click here to log in!
+          Click here to register!
         </Text>
       </View>
     );
   }
 }
-const mapDispatchToProps = (dispatch) => ({
-  signup: (userData) => dispatch(signup(userData)),
-});
+
+const mapDispatchToProps = { signup };
+
 export default connect(null, mapDispatchToProps)(Signup);

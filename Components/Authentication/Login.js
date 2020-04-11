@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-//Redux
-import { connect } from "react-redux";
-import { login } from "../../redux/actions";
 
 // Screen Names
-import { SIGNUP, COFFEESHOPS, SHOP } from "../../Navigation/screenNames";
+import { SIGNUP, SHOP, COFFEESHOPS } from "../../Navigation/screenNames";
 
 // Styling Components
 import { TextInput, TouchableOpacity, View } from "react-native";
 import { Text } from "native-base";
 import styles from "./styles";
+import { connect } from "react-redux";
+import { login } from "../../redux/actions";
 
 class Login extends Component {
   state = {
@@ -18,8 +17,10 @@ class Login extends Component {
   };
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, login } = this.props;
     const { username, password } = this.state;
+
+
     const goToCoffeeList = () =>
       navigation.navigate(SHOP, { screen: COFFEESHOPS });
     return (
@@ -42,7 +43,7 @@ class Login extends Component {
         />
         <TouchableOpacity
           style={styles.authButton}
-          onPress={() => this.props.login(this.state, goToCoffeeList)}
+          onPress={() => login(this.state, goToCoffeeList)}
         >
           <Text style={styles.authButtonText}>Log in</Text>
         </TouchableOpacity>
@@ -57,7 +58,7 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  login: (userData) => dispatch(login(userData)),
-});
+
+const mapDispatchToProps = {login}
+
 export default connect(null, mapDispatchToProps)(Login);

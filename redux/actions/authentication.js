@@ -48,7 +48,7 @@ export const logout = () => setCurrentUser();
 
 export const checkForToken = () => async (dispatch) => {
   const currentTimeInSeconds = Date.now() / 1000;
-  const token = await AsyncStorage.getItem("myToken");
+  const token = await AsyncStorage.getItem("token");
 
   if (token && decode(token).exp >= currentTimeInSeconds)
     dispatch(setCurrentUser(token));

@@ -15,7 +15,10 @@ const { Navigator, Screen } = createStackNavigator();
 
 function UserStack({ user }) {
   return (
-    <Navigator initialRouteName={LOGIN} screenOptions={screenOptions}>
+    <Navigator
+      initialRouteName={user ? PROFILE : LOGIN}
+      screenOptions={screenOptions}
+    >
       {!user ? (
         <>
           <Screen
